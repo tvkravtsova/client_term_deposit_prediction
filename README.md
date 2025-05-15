@@ -3,8 +3,8 @@
 ## Project Overview
 This project aims to predict whether a client will subscribe to a term deposit based on various attributes. This is a binary classification task. The primary audience for this project includes data analysts, data scientists, and marketing professionals looking to understand and predict customer behavior in the banking sector. 
 *   **Models Explored:** Logistic Regression, k-Nearest Neighbors (kNN), Decision Tree, and XGBoost.
-*   **Primary Metric:** ROC AUC, suitable for imbalanced classes and additionally F1 for class 1
-*   **Secondary Metric:**  F1 Score for class 1 (useful when class 1 is the minority)
+*   **Primary Metric:** ROC AUC
+*   **Secondary Metric:**  F1 Score for class 1 (class 1 is the minority)
 *   **Interpretation:** Focus on understanding model decisions (e.g., via SHAP, feature importance, error analysis).
 
 ## Project Structure
@@ -12,28 +12,26 @@ This project aims to predict whether a client will subscribe to a term deposit b
 ```
 client_term_deposit_prediction/
 ├── data/
-│   └── bank-additional-full.csv  # Main dataset
+│   └── bank-additional-full.csv  # Dataset
 ├── models/
-│   └── xgb_model.joblib          # Pre-trained XGBoost model
+│   └── xgb_model.joblib          # Trained model
 ├── notebooks/
 │   ├── bank_term_deposit_EDA.ipynb # Exploratory Data Analysis
 │   └── bank_term_deposit_main.ipynb # Main notebook for model training, evaluation, and interpretation
 ├── src/
 │   └── bank_preprocessing.py     # Script for data preprocessing
 ├── requirements.txt              # Project dependencies
-└── README.md                     # # Describes project overview, setup, and usage
+└── README.md                     # Describes project overview, setup, and usage
 ```
 
 ## Data
 
 *   **Source:** [Bank Marketing Kaggle Dataset](https://www.kaggle.com/datasets/sahistapatel96/bankadditionalfullcsv) 
-*   **Content:** Client demographic data, campaign interaction details, and socio-economic indicators.
+*   **Content:** Campaign interaction details, client demographic data, and socio-economic indicators.
 *   **Target Variable:** `y` (yes/no for term deposit subscription).
 *   **Important Note on `duration`:** The `duration` feature (last contact duration) is excluded from the final model features to prevent data leakage, as its value is typically known only after the call outcome.
 
-## Methodology
-
-### 1. Feature Engineering & Preprocessing
+## Feature Engineering & Preprocessing
 
 Key steps performed (details in `notebooks/bank_term_deposit_main.ipynb` and `src/bank_preprocessing.py`):
 *   **New Features Created:** Including `contacted_before`, `many_contacts`, `contact_ratio`, `previous_outcome_success`, and ratios of economic indicators (e.g., `euribor3m_to_emp.var.rate`).
@@ -42,7 +40,7 @@ Key steps performed (details in `notebooks/bank_term_deposit_main.ipynb` and `sr
 *   **Scaling:** MinMaxScaler applied to numerical features for relevant models (e.g., Logistic Regression, kNN).
 *   **Data Split:** Stratified train-validation split.
 
-### 2. Modeling & Evaluation
+## Modeling & Evaluation
 
 *   **Models Trained:** Logistic Regression, kNN, Decision Tree, XGBoost.
 *   **Tuning:** GridSearchCV (for kNN, Decision Tree), RandomizedSearchCV and Hyperopt (for XGBoost).
@@ -63,7 +61,7 @@ Below are key ROC AUC scores. For detailed metrics, hyperparameters, and F1-scor
 ## Model Interpretation (Best Model: XGBoost Tuned)
 Detailed analysis is in `notebooks/bank_term_deposit_main.ipynb`.
 
-## How to Use Pre-trained Model
+## How to Use Model
 
 The best performing model (`xgb_hyperopt_best`) is saved in `models/xgb_model.joblib`. Example usage:
 
@@ -83,17 +81,11 @@ Refer to `notebooks/bank_term_deposit_main.ipynb` for full preprocessing steps.
     git clone https://github.com/tvkravtsova/client_term_deposit_prediction.git
     cd client_term_deposit_prediction
     ```
-2.  **Virtual Environment (Recommended):**
-    ```bash
-    python -m venv venv
-    # Windows: venv\Scripts\activate
-    # macOS/Linux: source venv/bin/activate
-    ```
-3.  **Install Dependencies:**
+2.  **Install Dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-4.  **Launch Jupyter:** `jupyter notebook` and navigate to the `notebooks` directory.
+3.  **Launch Jupyter:** `jupyter notebook` and navigate to the `notebooks` directory.
 
 ## Ideas for Improvement
 
